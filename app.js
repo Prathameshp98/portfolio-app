@@ -16,14 +16,21 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {customCss}))
 
 app.use(bodyParser.json()) // application/json
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    next()
+})
+
+app.use('/users', feedRoutes)
+
 app.use((error, req, res, next) => {
     console.log(error)
     const status = error.statusCode || 500
     const message = error.message
     res.status(status).json({ message: message })
 })
-
-app.use('/users', feedRoutes)
 
 mongoose.connect(
     'mongodb+srv://admin_prathamesh:fDBN9Jc3d45pPhUt@cluster0.hm590.mongodb.net/Portfolio?retryWrites=true&w=majority'
