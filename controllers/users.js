@@ -43,7 +43,7 @@ exports.createUser = (req, res, next) => {
 
 exports.getUser = (req, res, next) => {
     const userId = req.params.userId
-    Post
+    User
         .findById(userId)
         .then(user => {
             if(!user) {
