@@ -1,5 +1,9 @@
 const User = require('../models/User')
 
+exports.getUsers = (req, res, next) => {
+
+}
+
 exports.createUser = (req, res, next) => {
     
     const name = req.body.name
@@ -25,4 +29,8 @@ exports.createUser = (req, res, next) => {
             }
             next(err)
         })   
+}
+
+exports.getUser = (req, res, next) => {
+    
 }

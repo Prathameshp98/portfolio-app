@@ -8,7 +8,7 @@ const swaggerDocument = require('./swagger.json')
 
 const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8');
 
-const userRoutes = require('./routes/users')
+const usersRoutes = require('./routes/users')
 
 app = express();
 
@@ -23,7 +23,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/users', feedRoutes)
+app.use('/users', usersRoutes)
 
 app.use((error, req, res, next) => {
     console.log(error)
