@@ -8,9 +8,13 @@ const swaggerDocument = require('./swagger.json')
 
 const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8');
 
+const userRoutes = require('./routes/users')
+
 app = express();
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {customCss}));
+
+app.use(bodyParser.json()) // application/json
 
 app.use((error, req, res, next) => {
     console.log(error)
@@ -18,6 +22,8 @@ app.use((error, req, res, next) => {
     const message = error.message
     res.status(status).json({ message: message })
 })
+
+app.use('/users', feedRoutes)
 
 mongoose.connect(
     'mongodb+srv://admin_prathamesh:fDBN9Jc3d45pPhUt@cluster0.hm590.mongodb.net/Portfolio?retryWrites=true&w=majority'
