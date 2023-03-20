@@ -19,18 +19,36 @@ exports.createUser = (req, res, next) => {
     const name = req.body.name
     const email = req.body.email
     const message = req.body.message
-    
+
     const user = new User({    
         name: name, 
         email: email,
         message: message
     })
-    user.save()
-        .then(result => {
-            console.log(result)
-            res.status(201).json({
-                message: 'User created successfully',
-                user: result
+
+
+    User
+        .find()
+        .then(users => {
+            users.forEach(user => {
+                if(user.email === email){
+                   res.status(208).json({message: 'Users Already Present'})
+                } else {
+                    user.save()
+                        .then(result => {
+                            console.log(result)
+                            res.status(201).json({
+                                message: 'User created successfully',
+                                user: result
+                            })
+                        })
+                        .catch(err => {
+                            if(!err.statusCode){
+                                err.statusCode = 500
+                            }
+                            next(err)
+                        }) 
+                }
             })
         })
         .catch(err => {
@@ -38,7 +56,10 @@ exports.createUser = (req, res, next) => {
                 err.statusCode = 500
             }
             next(err)
-        })   
+        }) 
+    
+    
+      
 }
 
 exports.getUser = (req, res, next) => {

@@ -11,7 +11,7 @@ const UserSchema = new Schema({
             required: true,
         },
         message: {
-            type: String,
+            type: Array,
             required: true,
         }
     },
