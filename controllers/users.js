@@ -37,7 +37,7 @@ exports.createUser = (req, res, next) => {
                         res.status(201).json({
                             message: 'Form Submitted',
                             operation: 'User created successfully',
-                            user: result
+                            data: result
                         })
                     })
                     .catch(err => {
@@ -58,7 +58,8 @@ exports.createUser = (req, res, next) => {
                         res.status(208).json({
                             message: "Form Submitted", 
                             operation: 'User updated successfully',
-                            updated_user : result})
+                            data: result
+                        })
                     })
                     .catch(err => {
                         if(!err.statusCode){
