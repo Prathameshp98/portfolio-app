@@ -35,7 +35,8 @@ exports.createUser = (req, res, next) => {
                     .then(result => {
                         console.log(result)
                         res.status(201).json({
-                            message: 'User created successfully',
+                            message: 'Form Submitted',
+                            operation: 'User created successfully',
                             user: result
                         })
                     })
@@ -54,7 +55,10 @@ exports.createUser = (req, res, next) => {
                 User
                     .findOneAndUpdate({email: email}, {message: updatedMessages}, {returnOriginal: false})
                     .then(result => {
-                        res.status(208).json({message: "User Updated Successfully", updated_user : result})
+                        res.status(208).json({
+                            message: "Form Submitted", 
+                            operation: 'User updated successfully',
+                            updated_user : result})
                     })
                     .catch(err => {
                         if(!err.statusCode){
