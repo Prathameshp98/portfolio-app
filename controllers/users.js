@@ -50,7 +50,7 @@ exports.createUser = (req, res, next) => {
 
                 result.message.map((each, index) => {
                     if(each['message_' + (index+1)] === message){
-                        res.status(200).json({ message: 'Duplicate Record', data: result})
+                        res.status(302).json({ message: 'Duplicate Record', data: result})
                     }
                 })
 
