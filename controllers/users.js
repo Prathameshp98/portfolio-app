@@ -47,11 +47,18 @@ exports.createUser = (req, res, next) => {
                         next(err)
                     })
             } else {
+
+                result.message.map((each, index) => {
+                    if(each['message_' + (index+1)] === message){
+                        res.status(200).json({ message: 'Duplicate Record', data: result})
+                    }
+                })
+
                 let key = "message_" + (result.message.length + 1)
                 let obj = {}
                 obj[key] = message
                 const updatedMessages = [...result.message, obj]
-                // res.status(208).json({result: updatedMessages})
+
                 User
                     .findOneAndUpdate({email: email}, {message: updatedMessages}, {returnOriginal: false})
                     .then(result => {
