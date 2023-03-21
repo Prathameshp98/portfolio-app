@@ -20,36 +20,50 @@ exports.createUser = (req, res, next) => {
     const email = req.body.email
     const message = req.body.message
 
-    const user = new User({    
+    const newUser = new User({    
         name: name, 
         email: email,
-        message: message
+        message: { "message_1": message }
+
     })
 
-
     User
-        .find()
-        .then(users => {
-            users.forEach(user => {
-                if(user.email === email){
-                   res.status(208).json({message: 'Users Already Present'})
-                } else {
-                    user.save()
-                        .then(result => {
-                            console.log(result)
-                            res.status(201).json({
-                                message: 'User created successfully',
-                                user: result
-                            })
+        .findOne({email: email})
+        .then(result => {
+            if(!result){
+                newUser.save()
+                    .then(result => {
+                        console.log(result)
+                        res.status(201).json({
+                            message: 'User created successfully',
+                            user: result
                         })
-                        .catch(err => {
-                            if(!err.statusCode){
-                                err.statusCode = 500
-                            }
-                            next(err)
-                        }) 
-                }
-            })
+                    })
+                    .catch(err => {
+                        if(!err.statusCode){
+                            err.statusCode = 500
+                        }
+                        next(err)
+                    })
+            } else {
+                let key = "message_" + (result.message.length + 1)
+                let obj = {}
+                obj[key] = message
+                const updatedMessages = [...result.message, obj]
+                // res.status(208).json({result: updatedMessages})
+                User
+                    .findOneAndUpdate({email: email}, {message: updatedMessages}, {returnOriginal: false})
+                    .then(result => {
+                        res.status(208).json({message: "User Updated Successfully", updated_user : result})
+                    })
+                    .catch(err => {
+                        if(!err.statusCode){
+                            err.statusCode = 500
+                        }
+                        next(err)
+                    })
+            }
+           
         })
         .catch(err => {
             if(!err.statusCode){
