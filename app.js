@@ -23,6 +23,11 @@ app.use((req, res, next) => {
     next()
 })
 
+app.get('/download', function(req, res){
+    const file = `${__dirname}/data/resume_2023.pdf`;
+    res.download(file); 
+});
+
 app.use('/users', usersRoutes)
 
 app.use((error, req, res, next) => {
