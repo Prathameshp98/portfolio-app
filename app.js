@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/download', function(req, res){
-    const file = `${__dirname}/data/resume_2023.pdf`;
+    const file = `${__dirname}/data/prathamesh_resume.pdf`;
     res.download(file); 
 });
 
