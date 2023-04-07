@@ -9,6 +9,7 @@ const swaggerDocument = require('./swagger.json')
 const customCss = fs.readFileSync((process.cwd()+"/swagger.css"), 'utf8');
 
 const usersRoutes = require('./routes/users')
+const downloadRoutes = require('./routes/downloads')
 
 app = express();
 
@@ -23,11 +24,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get('/download', function(req, res){
-    const file = `${__dirname}/data/prathamesh_resume.pdf`;
-    res.download(file); 
-});
-
+app.use('/downloads', downloadRoutes)
 app.use('/users', usersRoutes)
 
 app.use((error, req, res, next) => {
