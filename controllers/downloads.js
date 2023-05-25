@@ -1,7 +1,7 @@
 const Stat = require('../models/Stat')
 
 exports.getResume = (req, res, next) => {
-    const file = `./data/prathamesh_resume.pdf`
+    const file = `./data/prathamesh_patil_resume.pdf`
     res.download(file)
 
     Stat
